@@ -116,13 +116,13 @@ ruleTester.run(
       },
       {
         code: customPrefix,
-        options: ["quux-"]
+        options: [{ prefix: "quux-" }]
       }
     ],
     invalid: [
       {
         code: badPrefix,
-        options: ["baz-"],
+        options: [{ prefix: "baz-" }],
         errors: [
           {
             messageId: "badPrefix"

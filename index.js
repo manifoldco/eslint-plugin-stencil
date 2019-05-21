@@ -38,7 +38,12 @@ module.exports.rules = {
       },
       schema: [
         {
-          type: "string"
+          type: "object",
+          properties: {
+            prefix: {
+              type: "string"
+            }
+          }
         }
       ]
     },
@@ -56,7 +61,10 @@ module.exports.rules = {
 
             if (tag) {
               const name = tag.value.value;
-              const prefix = context.options[0] || "manifold-";
+              const prefixOption = context.options[0] || {
+                prefix: "manifold-"
+              };
+              const prefix = prefixOption.prefix;
               if (!name.startsWith(prefix)) {
                 context.report({
                   node,
