@@ -1,6 +1,10 @@
 module.exports.rules = {
   "restrict-required-props": {
     meta: {
+      messages: {
+        attributesOnly:
+          "The property {{ name }} must either be optional or have a default value assigned. Only properties that can be set from HTML attributes should be required unless default values are provide (only booleans and strings can be set via attributes)."
+      },
       schema: []
     },
     create: context => ({
@@ -17,9 +21,10 @@ module.exports.rules = {
           ) {
             context.report({
               node,
-              message: `The property ${
-                node.key.name
-              } must either be optional or have a default value assigned. Only properties that can be set from HTML attributes should be required unless default values are provided (only booleans and strings can be set via attributes).`
+              messageId: "attributesOnly",
+              data: {
+                name: node.key.name
+              }
             });
           }
         }

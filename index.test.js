@@ -13,18 +13,41 @@ const ruleTester = new RuleTester({
   parser: "@typescript-eslint/parser"
 });
 
-const validProps = `
+const requiredNumberDefaultValue = `
 import { h, Component, Prop } from '@stencil/core';
 
 @Component({ tag: 'my-component' })
 export class ManifoldSelect {
-  @Prop() answer?: number = 42;
+  @Prop() answer: number = 42;
 
   render() {
     return null;
   }
-}
-`;
+}`;
+
+const optionalNumber = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'my-component' })
+export class ManifoldSelect {
+  @Prop() answer?: number;
+
+  render() {
+    return null;
+  }
+}`;
+
+const requiredNumberWithoutDefault = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'my-component' })
+export class ManifoldSelect {
+  @Prop() answer: number;
+
+  render() {
+    return null;
+  }
+}`;
 
 ruleTester.run(
   "restrict-required-props",
@@ -32,9 +55,17 @@ ruleTester.run(
   {
     valid: [
       {
-        code: validProps
+        code: requiredNumberDefaultValue
+      },
+      {
+        code: optionalNumber
       }
     ],
-    invalid: []
+    invalid: [
+      {
+        code: requiredNumberWithoutDefault,
+        errors: [{ messageId: "attributesOnly" }]
+      }
+    ]
   }
 );
