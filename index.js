@@ -1,5 +1,8 @@
 module.exports.rules = {
   "restrict-required-props": {
+    meta: {
+      schema: []
+    },
     create: context => ({
       ClassProperty(node) {
         const decorators = node.decorators || [];
@@ -24,6 +27,13 @@ module.exports.rules = {
     })
   },
   "stencil-component-prefix": {
+    meta: {
+      schema: [
+        {
+          type: "string"
+        }
+      ]
+    },
     create: context => ({
       ExportNamedDeclaration(node) {
         if (node.declaration.type === "ClassDeclaration") {

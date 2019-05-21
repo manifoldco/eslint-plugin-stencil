@@ -4,8 +4,13 @@
   "description": "ESLint rules to enforce better practices in Stencil development",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.test.js"
   },
   "author": "",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  }
 }
