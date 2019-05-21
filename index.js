@@ -33,6 +33,9 @@ module.exports.rules = {
   },
   "stencil-component-prefix": {
     meta: {
+      messages: {
+        badPrefix: "Component {{ name }} should be prefixed with '{{ prefix }}'"
+      },
       schema: [
         {
           type: "string"
@@ -57,7 +60,11 @@ module.exports.rules = {
               if (!name.startsWith(prefix)) {
                 context.report({
                   node,
-                  message: `Component ${name} should be prefixed with '${prefix}'`
+                  messageId: "badPrefix",
+                  data: {
+                    name,
+                    prefix
+                  }
                 });
               }
             }

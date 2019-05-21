@@ -69,3 +69,66 @@ ruleTester.run(
     ]
   }
 );
+
+const goodPrefix = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'manifold-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  render() {
+    return null;
+  }
+}`;
+
+const customPrefix = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  render() {
+    return null;
+  }
+}`;
+
+const badPrefix = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  render() {
+    return null;
+  }
+}`;
+
+ruleTester.run(
+  "stencil-component-prefix",
+  plugin.rules["stencil-component-prefix"],
+  {
+    valid: [
+      {
+        code: goodPrefix
+      },
+      {
+        code: customPrefix,
+        options: ["quux-"]
+      }
+    ],
+    invalid: [
+      {
+        code: badPrefix,
+        options: ["baz-"],
+        errors: [
+          {
+            messageId: "badPrefix"
+          }
+        ]
+      }
+    ]
+  }
+);
