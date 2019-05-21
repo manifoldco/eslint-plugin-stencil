@@ -1,0 +1,16 @@
+{
+  "name": "eslint-plugin-manifoldco-stencil",
+  "version": "0.1.0",
+  "description": "ESLint rules to enforce better practices in Stencil development",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.test.js"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  }
+}
