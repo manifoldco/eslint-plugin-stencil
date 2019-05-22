@@ -31,7 +31,7 @@ module.exports.rules = {
       }
     })
   },
-  "stencil-component-prefix": {
+  "component-prefix": {
     meta: {
       messages: {
         badPrefix: "Component {{ name }} should be prefixed with '{{ prefix }}'"

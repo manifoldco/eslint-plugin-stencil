@@ -106,29 +106,25 @@ export class ManifoldSelect {
   }
 }`;
 
-ruleTester.run(
-  "stencil-component-prefix",
-  plugin.rules["stencil-component-prefix"],
-  {
-    valid: [
-      {
-        code: goodPrefix
-      },
-      {
-        code: customPrefix,
-        options: [{ prefix: "quux-" }]
-      }
-    ],
-    invalid: [
-      {
-        code: badPrefix,
-        options: [{ prefix: "baz-" }],
-        errors: [
-          {
-            messageId: "badPrefix"
-          }
-        ]
-      }
-    ]
-  }
-);
+ruleTester.run("component-prefix", plugin.rules["component-prefix"], {
+  valid: [
+    {
+      code: goodPrefix
+    },
+    {
+      code: customPrefix,
+      options: [{ prefix: "quux-" }]
+    }
+  ],
+  invalid: [
+    {
+      code: badPrefix,
+      options: [{ prefix: "baz-" }],
+      errors: [
+        {
+          messageId: "badPrefix"
+        }
+      ]
+    }
+  ]
+});

@@ -56,20 +56,20 @@ This rule limits which component props can be required. Stencil components can a
 
 To turn this rule on for your project, add it to the `rules` field in your ESLint configuration:
 
-```json
+```js
 // .eslintrc.js
   rules: {
     '@manifoldco/stencil/restrict-required-props': 'error',
 ```
 
-### stencil-component-prefix
+### component-prefix
 
 This rule exists to enforce a consistent naming convention for all your web components. This will help your consumers avoid naming collisions when using more than one web component library.
 
 To turn this rule on for your project, add it to the `rules` field in your ESLint configuration, and specify a prefix. For example, if you want all of your web components to be prefixed with `scalawags-`:
 
-```json
+```js
 // .eslintrc.js
   rules: {
-    '@manifoldco/stencil/stencil-component-prefix': ['error', { prefix: 'scalawags-' }],
+    '@manifoldco/stencil/component-prefix': ['error', { prefix: 'scalawags-' }],
 ```
