@@ -1,16 +1,29 @@
 {
-  "name": "eslint-plugin-manifoldco-stencil",
+  "name": "@manifoldco/eslint-plugin-stencil",
   "version": "0.1.0",
   "description": "ESLint rules to enforce better practices in Stencil development",
   "main": "index.js",
   "scripts": {
     "test": "node index.test.js"
   },
-  "author": "",
+  "author": "Sam Slotsky",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@typescript-eslint/parser": "^1.9.0",
     "eslint": "^5.16.0",
     "typescript": "^3.4.5"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manifoldco/eslint-plugin-stencil.git"
+  },
+  "keywords": [
+    "eslint",
+    "stencil"
+  ],
+  "bugs": {
+    "url": "https://github.com/manifoldco/eslint-plugin-stencil/issues"
+  },
+  "homepage": "https://github.com/manifoldco/eslint-plugin-stencil#readme"
 }
