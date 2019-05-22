@@ -23,7 +23,7 @@ npm i -D @manifoldco/eslint-plugin-stencil
 
 First, add to the `plugins` array of your ESLint configuration.
 
-```json
+```js
 // .eslintrc.js
 module.exports = {
   plugins: ['@manifoldco/stencil'],
