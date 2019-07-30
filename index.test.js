@@ -128,3 +128,54 @@ ruleTester.run("component-prefix", plugin.rules["component-prefix"], {
     }
   ]
 });
+
+const isNotAComponent = `
+export class ManifoldSelect {
+  @Prop() answer: number;
+
+  render() {
+    return null;
+  }
+}`;
+
+const componentMissingLogger = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  render() {
+    return null;
+  }
+}`;
+
+const componentWithLogger = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  @logger()
+  render() {
+    return null;
+  }
+}`;
+
+ruleTester.run("require-logger", plugin.rules["require-logger"], {
+  valid: [
+    {
+      code: isNotAComponent
+    },
+    {
+      code: componentWithLogger
+    }
+  ],
+  invalid: [
+    {
+      code: componentMissingLogger,
+      errors: [{ messageId: "loggerMissing" }]
+    }
+  ]
+});
