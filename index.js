@@ -1,4 +1,46 @@
 module.exports.rules = {
+  "require-logger": {
+    meta: {
+      messages: {
+        loggerMissing:
+          "Each component's render method must be decorated with the @logger decorator."
+      },
+      schema: []
+    },
+    create: context => ({
+      MethodDefinition(node) {
+        const ancestors = context.getAncestors();
+        const isComponent = ancestors.some(a => {
+          const isClass =
+            a.type === "ExportNamedDeclaration" &&
+            a.declaration.type === "ClassDeclaration";
+
+          if (isClass) {
+            const decorators = a.declaration.decorators || [];
+            return decorators.some(
+              d => d.expression.callee.name === "Component"
+            );
+          }
+
+          return false;
+        });
+
+        if (isComponent && node.key.name === "render") {
+          const decorators = node.decorators || [];
+          const logger = decorators.find(
+            d => d.expression.callee.name === "logger"
+          );
+
+          if (!logger) {
+            context.report({
+              node,
+              messageId: "loggerMissing"
+            });
+          }
+        }
+      }
+    })
+  },
   "restrict-required-props": {
     meta: {
       messages: {
