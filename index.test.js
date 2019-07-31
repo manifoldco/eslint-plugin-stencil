@@ -163,19 +163,40 @@ export class ManifoldSelect {
   }
 }`;
 
-ruleTester.run("require-logger", plugin.rules["require-logger"], {
-  valid: [
-    {
-      code: isNotAComponent
-    },
-    {
-      code: componentWithLogger
-    }
-  ],
-  invalid: [
-    {
-      code: componentMissingLogger,
-      errors: [{ messageId: "loggerMissing" }]
-    }
-  ]
-});
+const componentWithOtherDecorator = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  @quux()
+  render() {
+    return null;
+  }
+}`;
+
+ruleTester.run(
+  "require-render-decorator",
+  plugin.rules["require-render-decorator"],
+  {
+    valid: [
+      {
+        code: isNotAComponent
+      },
+      {
+        code: componentWithLogger
+      },
+      {
+        code: componentWithOtherDecorator,
+        options: [{ decoratorName: "quux" }]
+      }
+    ],
+    invalid: [
+      {
+        code: componentMissingLogger,
+        errors: [{ messageId: "decoratorMissing" }]
+      }
+    ]
+  }
+);

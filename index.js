@@ -1,11 +1,20 @@
 module.exports.rules = {
-  "require-logger": {
+  "require-render-decorator": {
     meta: {
       messages: {
-        loggerMissing:
-          "Each component's render method must be decorated with the @logger decorator."
+        decoratorMissing:
+          "Each component's render method must be decorated with the @{{ decorator }} decorator."
       },
-      schema: []
+      schema: [
+        {
+          type: "object",
+          properties: {
+            decoratorName: {
+              type: "string"
+            }
+          }
+        }
+      ]
     },
     create: context => ({
       MethodDefinition(node) {
@@ -27,14 +36,20 @@ module.exports.rules = {
 
         if (isComponent && node.key.name === "render") {
           const decorators = node.decorators || [];
+          const option = context.options[0] || {
+            decoratorName: "logger"
+          };
           const logger = decorators.find(
-            d => d.expression.callee.name === "logger"
+            d => d.expression.callee.name === option.decoratorName
           );
 
           if (!logger) {
             context.report({
               node,
-              messageId: "loggerMissing"
+              messageId: "decoratorMissing",
+              data: {
+                decoratorName: option.decoratorName
+              }
             });
           }
         }
