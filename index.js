@@ -3,7 +3,7 @@ module.exports.rules = {
     meta: {
       messages: {
         decoratorMissing:
-          "Each component's render method must be decorated with the @{{ decorator }} decorator."
+          "Each component's render method must be decorated with the @{{ decoratorName }} decorator."
       },
       schema: [
         {
