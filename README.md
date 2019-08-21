@@ -73,3 +73,15 @@ To turn this rule on for your project, add it to the `rules` field in your ESLin
   rules: {
     '@manifoldco/stencil/component-prefix': ['error', { prefix: 'scalawags-' }],
 ```
+
+### require-render-decorator
+
+This rule requires all Stencil components to decorate their render methods with a given decorator. This allows you to simulate something React's error boundaries. For instance, your decorator can wrap the render method in a try/catch, where the catch block can send errors to a logging service and display an error message to the user.
+
+To turn this rule on for your project, add it to the `rules` field in your ESLint configuration. By default, the decorator name will be `logger`, but you can override this in the options array:
+
+```js
+// .eslintrc.js
+  rules: {
+    '@manifoldco/stencil/require-render-logger': ['error', { decaratorName: 'renAndStimpyLoveLogs' }],
+```
