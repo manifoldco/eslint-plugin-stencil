@@ -163,7 +163,7 @@ export class ManifoldSelect {
   }
 }`;
 
-const componentWithOtherDecorator = `
+let componentWithOtherDecorator = `
 import { h, Component, Prop } from '@stencil/core';
 
 @Component({ tag: 'quux-component' })
@@ -196,6 +196,102 @@ ruleTester.run(
       {
         code: componentMissingLogger,
         errors: [{ messageId: "decoratorMissing" }]
+      }
+    ]
+  }
+);
+
+const componentMissingLoadMark = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  componentWillLoad() {}
+}`;
+
+const componentWithLoadMark = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  @loadMark()
+  componentWillLoad() {}
+}`;
+
+const componentWithOtherComponentWillLoadDecorator = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  @quux()
+  componentWillLoad() {}
+}`;
+
+ruleTester.run(
+  "require-componentWillLoad-decorator",
+  plugin.rules["require-componentWillLoad-decorator"],
+  {
+    valid: [
+      {
+        code: isNotAComponent
+      },
+      {
+        code: componentWithLoadMark
+      },
+      {
+        code: componentWithOtherComponentWillLoadDecorator,
+        options: [{ decoratorName: "quux" }],
+      }
+    ],
+    invalid: [
+      {
+        code: componentMissingLoadMark,
+        errors: [{ messageId: "decoratorMissing" }]
+      }
+    ]
+  }
+);
+
+const componentWithComponentWillLoad = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+
+  componentWillLoad() {}
+}`;
+
+const componentMissingComponentWillLoad = `
+import { h, Component, Prop } from '@stencil/core';
+
+@Component({ tag: 'quux-component' })
+export class ManifoldSelect {
+  @Prop() answer: number = 42;
+}`;
+
+ruleTester.run(
+  "require-componentWillLoad",
+  plugin.rules["require-componentWillLoad"],
+  {
+    valid: [
+      {
+        code: isNotAComponent
+      },
+      {
+        code: componentWithComponentWillLoad
+      }
+    ],
+    invalid: [
+      {
+        code: componentMissingComponentWillLoad,
+        errors: [{ messageId: "componentWillLoadMissing" }]
       }
     ]
   }

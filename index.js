@@ -56,6 +56,92 @@ module.exports.rules = {
       }
     })
   },
+  "require-componentWillLoad-decorator": {
+    meta: {
+      messages: {
+        decoratorMissing:
+          "Each component's componentWillLoad method must be decorated with the @{{ decoratorName }} decorator."
+      },
+      schema: [
+        {
+          type: "object",
+          properties: {
+            decoratorName: {
+              type: "string"
+            }
+          }
+        }
+      ]
+    },
+    create: context => ({
+      MethodDefinition(node) {
+        const ancestors = context.getAncestors();
+        const isComponent = ancestors.some(a => {
+          const isClass =
+            a.type === "ExportNamedDeclaration" &&
+            a.declaration.type === "ClassDeclaration";
+
+          if (isClass) {
+            const decorators = a.declaration.decorators || [];
+            return decorators.some(
+              d => d.expression.callee.name === "Component"
+            );
+          }
+
+          return false;
+        });
+
+        if (isComponent && node.key.name === "componentWillLoad") {
+          const decorators = node.decorators || [];
+          const option = context.options[0] || {
+            decoratorName: "loadMark"
+          };
+          const loadMark = decorators.find(
+            d => d.expression.callee.name === option.decoratorName
+          );
+
+          if (!loadMark) {
+            context.report({
+              node,
+              messageId: "decoratorMissing",
+              data: {
+                decoratorName: option.decoratorName
+              }
+            });
+          }
+        }
+      }
+    })
+  },
+  "require-componentWillLoad": {
+    meta: {
+      messages: {
+        componentWillLoadMissing:
+          "Each component must include a componentWillLoad method."
+      },
+      schema: []
+    },
+    create: context => ({
+      ClassDeclaration(node) {
+        const isComponent = !!(
+          node.decorators &&
+          node.decorators.some(d => d.expression.callee.name === "Component")
+        );
+
+        const hasComponentWillLoad = node.body.body.some(
+          d =>
+            d.type === "MethodDefinition" && d.key.name === "componentWillLoad"
+        );
+
+        if (isComponent && !hasComponentWillLoad){
+          context.report({
+            node,
+            messageId: "componentWillLoadMissing",
+          });
+        }
+      }
+    })
+  },
   "restrict-required-props": {
     meta: {
       messages: {
