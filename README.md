@@ -83,5 +83,29 @@ To turn this rule on for your project, add it to the `rules` field in your ESLin
 ```js
 // .eslintrc.js
   rules: {
-    '@manifoldco/stencil/require-render-logger': ['error', { decaratorName: 'renAndStimpyLoveLogs' }],
+    '@manifoldco/stencil/require-render-decorator': ['error', { decaratorName: 'renAndStimpyLoveLogs' }],
+```
+
+### require-componentWillLoad-decorator
+
+This rule requires all Stencil components to decorate their `componentWillLoad` methods with a given decorator. One possible use for this is to set a performance mark at load time for your component.
+
+To turn this rule on for your project, add it to the `rules` field in your ESLint configuration. By default, the decorator name will be `loadMark`, but you can override this in the options array:
+
+```js
+// .eslintrc.js
+  rules: {
+    '@manifoldco/stencil/require-componentWillLoad-decorator': ['error', { decaratorName: 'loadMark' }],
+```
+
+### require-componentWillLoad
+
+This rule requires all Stencil components to declare a componentWillLoad method. This is useful when combined with the above rule to ensure that all components are decorated with the above decorator.
+
+To turn this rule on for your project, add it to the `rules` field in your ESLint configuration.
+
+```js
+// .eslintrc.js
+  rules: {
+    '@manifoldco/stencil/require-componentWillLoad': ['error', {}],
 ```
