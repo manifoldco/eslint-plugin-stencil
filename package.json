@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/eslint-plugin-stencil",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "ESLint rules to enforce better practices in Stencil development",
   "main": "index.js",
   "scripts": {
